@@ -1,3 +1,4 @@
+from inspect import Parameter
 from scheme_eval_apply import *
 from scheme_utils import *
 from scheme_classes import *
@@ -43,7 +44,9 @@ def do_define_form(expressions, env):
     elif isinstance(signature, Pair) and scheme_symbolp(signature.first):
         # defining a named procedure e.g. (define (f x y) (+ x y))
         # BEGIN PROBLEM 10
-        "*** YOUR CODE HERE ***"
+        new_pair = Pair(signature.rest, expressions.rest) # Pair(x, Pair(y, nil), Pair(Pair(body...)))  do_lambda_form((signature.rest) (expressions.rest))
+        env.define(signature.first, do_lambda_form(new_pair, env))
+        return signature.first
         # END PROBLEM 10
     else:
         bad_signature = signature.first if isinstance(signature, Pair) else signature
@@ -87,7 +90,7 @@ def do_lambda_form(expressions, env):
     formals = expressions.first
     validate_formals(formals)
     # BEGIN PROBLEM 7
-    "*** YOUR CODE HERE ***"
+    return LambdaProcedure(formals, expressions.rest, env)
     # END PROBLEM 7
 
 
@@ -244,7 +247,7 @@ def do_mu_form(expressions, env):
     formals = expressions.first
     validate_formals(formals)
     # BEGIN PROBLEM 11
-    "*** YOUR CODE HERE ***"
+    return MuProcedure(formals, expressions.rest)
     # END PROBLEM 11
 
 
